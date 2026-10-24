@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Analysis history — OptiVision CV{% endblock %}
+{% block content %}
+<div class="page-heading"><div class="eyebrow">WORKSPACE / HISTORY</div><h1>Analysis history</h1><p>Your previous image diagnostics in one place.</p></div>
+{% if rows %}<div class="table-card"><table><thead><tr><th>Image</th><th>Dimensions</th><th>Quality score</th><th>Date</th><th></th></tr></thead><tbody>{% for row in rows %}<tr><td>{{ row.filename }}</td><td>{{ row.width }} × {{ row.height }}</td><td><span class="score-pill">{{ '%.1f'|format(row.score) }}%</span></td><td>{{ row.created_at[:16].replace('T',' ') }}</td><td><a href="{{ url_for('result',analysis_id=row.id) }}">View result →</a></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><h3>No analyses saved yet</h3><p>Your image results will appear here.</p><a class="button" href="{{ url_for('upload') }}">Analyze an image</a></div>{% endif %}
+{% endblock %}

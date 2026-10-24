@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Overview — OptiVision CV{% endblock %}
+{% block content %}
+<div class="page-heading"><div class="eyebrow">OPTIVISION / CV</div><h1>Good {{ 'morning' }}, {{ current_user.name.split(' ')[0] }}</h1><p>Your image quality workspace is ready for a new frame.</p></div>
+<section class="dashboard-hero">
+    <div>
+        <div class="eyebrow">WORKSPACE OVERVIEW</div>
+        <h2>Measure. Understand. Improve.</h2>
+        <p>Run a computer-vision diagnostic and turn technical signals into better imagery.</p>
+        <a class="button" href="{{ url_for('upload') }}">Analyze an image&nbsp; →</a>
+    </div>
+    <div class="image-symbol signal-art">
+        <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12c2.5-6 5.5-6 8 0s5.5 6 8 0 5.5-6 8 0"></path>
+        </svg>
+        <small>CV / 01</small>
+    </div>
+</section>
+<div class="stats-grid"><article class="stat-card"><span>▧ &nbsp; Images analyzed</span><strong>{{ stats.n }}</strong></article><article class="stat-card"><span>▥ &nbsp; Average quality</span><strong>{{ ('%.1f'|format(stats.avg)) ~ '%' if stats.avg is not none else '—' }}</strong></article><article class="stat-card"><span>✧ &nbsp; Latest reading</span><strong>{{ ('%.1f'|format(rows[0].score)) ~ '%' if rows else '—' }}</strong></article></div>
+<div class="section-title"><div><div class="eyebrow">RECENT READINGS</div><h2>Latest analyses</h2></div><a href="{{ url_for('history') }}">View all →</a></div>
+{% if rows %}<div class="table-card"><table><thead><tr><th>Image</th><th>Dimensions</th><th>Quality score</th><th>Date</th><th></th></tr></thead><tbody>{% for row in rows %}<tr><td>{{ row.filename }}</td><td>{{ row.width }} × {{ row.height }}</td><td><span class="score-pill">{{ '%.1f'|format(row.score) }}%</span></td><td>{{ row.created_at[:16].replace('T',' ') }}</td><td><a href="{{ url_for('result',analysis_id=row.id) }}">View →</a></td></tr>{% endfor %}</tbody></table></div>{% else %}<div class="empty-state"><div class="upload-icon">⇧</div><h3>No readings yet</h3><p>Upload your first image to see measured quality signals here.</p><a class="button" href="{{ url_for('upload') }}">Upload an image</a></div>{% endif %}
+{% endblock %}

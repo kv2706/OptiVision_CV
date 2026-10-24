@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}OptiVision CV — See the signal inside every image{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy"><div class="eyebrow">COMPUTER VISION / 01</div><h1>See the signal<br><em>inside</em> every<br>image.</h1><p>Measure image quality with pixel-level diagnostics. Understand what needs attention, then improve it with confidence.</p><a class="button" href="{{ url_for('register') }}">Open your workspace&nbsp; →</a></div>
+  <div class="signal-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"><span>∿</span></div><label>QUALITY / SIGNAL</label><small>12 metrics · 1 clear result</small></div>
+</section>
+<section class="metric-strip"><span>EXPOSURE</span><span>SHARPNESS</span><span>CONTRAST</span><span>COLOR BALANCE</span><span>HISTOGRAMS</span></section>
+<section class="feature-section"><div class="eyebrow">BUILT FOR DETAIL</div><h2>Measure. Understand. Improve.</h2><div class="feature-grid"><article><b>01 / Analyze</b><h3>Pixel-level signals</h3><p>Upload a frame and inspect brightness, exposure, detail, color and tonal range.</p></article><article><b>02 / Understand</b><h3>One clear score</h3><p>See an overall 0–100 quality indicator alongside individual measurements.</p></article><article><b>03 / Improve</b><h3>Useful next steps</h3><p>Get practical suggestions for issues like clipping, blur, muted color and noise.</p></article></div></section>
+<footer>OPTIVISION CV <span>Image quality, made understandable.</span></footer>
+{% endblock %}

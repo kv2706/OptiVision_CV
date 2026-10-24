@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Analyze an image — OptiVision CV{% endblock %}
+{% block content %}
+<div class="page-heading"><div class="eyebrow">OPTIVISION / CV</div><h1>Analyze a new image</h1><p>Upload a frame and get a measured diagnostic in seconds.</p></div>
+<div class="upload-layout"><form method="post" enctype="multipart/form-data" class="upload-form" id="uploadForm"><label class="dropzone" for="imageInput"><span class="upload-icon">⇧</span><strong id="dropTitle">Drop an image here</strong><span id="dropHelp">or click to browse · JPG, PNG, WEBP · max 12 MB</span><input id="imageInput" type="file" name="image" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required></label><div id="previewWrap" class="preview-wrap" hidden><img id="preview" alt="Selected image preview"></div><button class="button full" type="submit">Run analysis&nbsp; →</button></form>
+<aside class="measure-panel"><div class="eyebrow">WHAT WE MEASURE</div><div>01 &nbsp; Exposure & luminance <span>✓</span></div><div>02 &nbsp; Contrast & dynamic range <span>✓</span></div><div>03 &nbsp; Sharpness & blur <span>✓</span></div><div>04 &nbsp; Noise, color & edges <span>✓</span></div><p class="fine-print">Files are processed by this local app. Keep the app running while analysis completes.</p></aside></div>
+<script>
+const input=document.getElementById('imageInput'), title=document.getElementById('dropTitle'), help=document.getElementById('dropHelp'), wrap=document.getElementById('previewWrap'), preview=document.getElementById('preview'), zone=document.querySelector('.dropzone');
+input.addEventListener('change',()=>{const f=input.files[0];if(!f)return;title.textContent=f.name;help.textContent=(f.size/1024/1024).toFixed(2)+' MB · ready to analyze';preview.src=URL.createObjectURL(f);wrap.hidden=false;});
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('dragover')});zone.addEventListener('dragleave',()=>zone.classList.remove('dragover'));zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('dragover');if(e.dataTransfer.files.length){input.files=e.dataTransfer.files;input.dispatchEvent(new Event('change'));}});
+</script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Analysis result — OptiVision CV{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div class="eyebrow">ANALYSIS / RESULT {{ '%04d'|format(row.id) }}</div>
+    <h1>Your image, measured.</h1>
+    <p>{{ row.filename }} · {{ row.width }} × {{ row.height }} pixels · {{ row.created_at[:16].replace('T',' ') }}</p>
+</div>
+
+<section class="result-overview">
+    <img src="{{ url_for('image_file', analysis_id=row.id) }}" alt="Analyzed image">
+    <div class="score-summary">
+        <div class="eyebrow">OVERALL IMAGE QUALITY</div>
+        <div class="big-score">{{ '%.1f'|format(row.score) }}<small>/100</small></div>
+        <div class="score-track"><span style="width:{{ row.score }}%"></span></div>
+        <p>A weighted technical indicator based on exposure, detail, contrast, tonal range, color balance and noise. It is not an artistic rating.</p>
+        
+        <!-- Action Buttons: Download & Analyze Another -->
+        <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
+            <a class="button" href="{{ url_for('download_image', analysis_id=row.id) }}">📥 Download Enhanced Image</a>
+            <a class="button secondary" href="{{ url_for('upload') }}">Analyze another image →</a>
+        </div>
+    </div>
+</section>
+
+<div class="section-title">
+    <div>
+        <div class="eyebrow">PIXEL-LEVEL DIAGNOSTICS</div>
+        <h2>Quality signals</h2>
+    </div>
+</div>
+
+<div class="metric-grid">
+{% for key, label, unit in [('brightness','Brightness','/100'),('contrast','Contrast','std %'),('sharpness','Sharpness','/100'),('blurriness','Blurriness','/100'),('exposure','Exposure','/100'),('highlights','Highlights','% pixels'),('shadows','Shadows','% pixels'),('saturation','Saturation','%'),('vibrance','Vibrance','/100'),('color_temperature','Color temperature','K approx.'),('color_balance','Color balance','/100'),('noise','Noise estimate','/100'),('dynamic_range','Dynamic range','/100')] %}
+<article class="metric-card">
+    <div class="metric-name">{{ label }}</div>
+    <strong>{{ metrics[key] }}<small> {{ unit }}</small></strong>
+    {% if key in ['brightness','sharpness','blurriness','exposure','vibrance','color_balance','noise','dynamic_range'] %}
+    <div class="mini-track"><span style="width:{{ metrics[key] }}%"></span></div>
+    {% endif %}
+</article>
+{% endfor %}
+</div>
+
+<section class="tips-panel">
+    <div class="eyebrow">NEXT STEPS</div>
+    <h2>What to look at</h2>
+    <ul>
+        {% for tip in tips %}
+        <li>{{ tip }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<p class="disclaimer">Interpretation note: these are pixel-derived estimates. Color temperature is approximate, and sharpness/noise scores depend on image content and resolution.</p>
+{% endblock %}

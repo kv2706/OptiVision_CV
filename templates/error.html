@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}{{ code }} — OptiVision CV{% endblock %}
+{% block content %}<div class="empty-state error-state"><div class="eyebrow">ERROR {{ code }}</div><h1>{{ code }}</h1><p>{{ message }}</p><a class="button" href="{{ url_for('dashboard') if current_user else url_for('index') }}">Return home →</a></div>{% endblock %}

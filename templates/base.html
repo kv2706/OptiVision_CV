@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}OptiVision CV{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+{% if current_user %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-icon">∿</span><span>OptiVision <b>CV</b></span></a>
+    <div class="side-label">WORKSPACE</div>
+    <nav>
+      <a class="{{ 'active' if request.endpoint == 'dashboard' else '' }}" href="{{ url_for('dashboard') }}"><span>▦</span> Overview</a>
+      <a class="{{ 'active' if request.endpoint == 'history' else '' }}" href="{{ url_for('history') }}"><span>◷</span> Analysis history</a>
+      <a class="{{ 'active' if request.endpoint == 'profile' else '' }}" href="{{ url_for('profile') }}"><span>♙</span> Profile</a>
+      {% if current_user.role == 'admin' %}<a class="{{ 'active' if request.endpoint == 'admin' else '' }}" href="{{ url_for('admin') }}"><span>⛨</span> Admin console</a>{% endif %}
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="avatar">{{ current_user.name[:1]|upper }}</div>
+      <div class="account"><strong>{{ current_user.name }}</strong><small>{{ current_user.role }}</small></div>
+      <a class="logout" href="{{ url_for('logout') }}">↪ Log out</a>
+    </div>
+  </aside>
+  <main class="main-area">
+    <header class="topbar"><div class="crumb">Workspace <span>/</span> {{ request.endpoint|replace('_',' ') }}</div><a class="top-upload" href="{{ url_for('upload') }}">⇧ &nbsp; Analyze image</a></header>
+    <section class="page-content">
+{% else %}
+<main class="public-shell">
+  <header class="public-nav"><a class="brand" href="{{ url_for('index') }}"><span class="brand-icon">∿</span><span>OptiVision <b>CV</b></span></a><div>{% if request.endpoint == 'login' %}<a href="{{ url_for('register') }}">Create account</a>{% else %}<a href="{{ url_for('login') }}">Sign in</a>{% endif %}<a class="button small" href="{{ url_for('upload') if current_user else url_for('login') }}">Start analyzing →</a></div></header>
+{% endif %}
+{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-wrap">{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+{% block content %}{% endblock %}
+{% if current_user %}</section></main></div>{% else %}</main>{% endif %}
+</body></html>

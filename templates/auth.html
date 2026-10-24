@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Create account' if mode == 'register' else 'Sign in' }} — OptiVision CV{% endblock %}
+{% block content %}
+<section class="auth-layout"><div class="auth-story"><a class="brand" href="{{ url_for('index') }}"><span class="brand-icon">∿</span><span>OptiVision <b>CV</b></span></a><div class="auth-story-copy"><div class="eyebrow">BUILD A CLEARER VISUAL SYSTEM</div><h1>{{ 'Start with one image.' if mode == 'register' else 'Welcome back.' }}</h1><p>Measure what matters in every frame. Clear diagnostics, practical recommendations, better images.</p><div class="auth-stat"><strong>12+</strong><span>technical quality signals<br>from one image</span></div></div></div>
+<div class="auth-form-wrap"><form class="auth-form" method="post"><div class="eyebrow">{{ 'CREATE ACCOUNT' if mode == 'register' else 'YOUR WORKSPACE' }}</div><h2>{{ 'Your analysis workspace' if mode == 'register' else 'Sign in to OptiVision' }}</h2><p>{{ 'Save every diagnostic and improvement in one place.' if mode == 'register' else 'Continue to your image quality dashboard.' }}</p>
+{% if mode == 'register' %}<label>Full name<input name="name" autocomplete="name" required placeholder="Your name"></label>{% endif %}
+<label>Email<input type="email" name="email" autocomplete="email" required placeholder="you@example.com"></label>
+<label>Password<input type="password" name="password" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" minlength="{{ 8 if mode == 'register' else 1 }}" required placeholder="{{ 'At least 8 characters' if mode == 'register' else 'Your password' }}"></label>
+<button class="button full" type="submit">{{ 'Create workspace' if mode == 'register' else 'Sign in' }} →</button>
+<div class="auth-switch">{% if mode == 'register' %}Already have an account? <a href="{{ url_for('login') }}">Sign in</a>{% else %}New to OptiVision? <a href="{{ url_for('register') }}">Create account</a>{% endif %}</div>
+{% if mode == 'login' %}{% endif %}
+</form></div></section>
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Profile — OptiVision CV{% endblock %}
+{% block content %}
+<div class="page-heading"><div class="eyebrow">OPTIVISION / CV</div><h1>Profile</h1><p>Manage the identity connected to your analyses.</p></div>
+<form method="post" class="profile-card"><div class="avatar large">{{ user.name[:1]|upper }}</div><div class="eyebrow">ACCOUNT DETAILS</div><h2>{{ user.name }}</h2><label>Display name<input name="name" value="{{ user.name }}" required></label><label>Email<input value="{{ user.email }}" disabled></label><label>Role<input value="{{ user.role }}" disabled></label><button class="button" type="submit">Save changes</button></form>
+{% endblock %}
